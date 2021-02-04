@@ -6,28 +6,31 @@ namespace EmpWageUsingClassMethod
 	{
 		const int isFullTime = 1;
 		const int isPartTime = 2;
-		static void ComputeWage()
+
+		public static void EmpWageCompute(String company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth)
 		{
 
-			int empRatePerHr = 20;
-			int empDailyHr = 0;
-			int perDaySalary = 0;
-			int mothWorkingDay = 20;
-			int monthlySalary = 0;
-			int monthlyHrs = 0;
-			for (int i = 1; i <= mothWorkingDay; i++)
-			{
-				Random randomNumber = new Random();
-				int empCheck = randomNumber.Next(0, 3);
-				//Console.WriteLine(empCheck);
-				switch ((int)empCheck)
-				{
-					case isFullTime:
-						empDailyHr = 8;
-						break;
 
+			int totalWorkingHrs = 0;
+			int workingDays = 0;
+			int empDailyHr = 0;
+			int totalEmpWage = 0;
+			Random randomNumber = new Random();
+			while (workingDays < numOfWorkingDays || totalWorkingHrs < maxHoursPerMonth)
+			{
+
+
+				int empCheck = randomNumber.Next(0, 3);
+				switch (empCheck)
+				{
 					case isPartTime:
 						empDailyHr = 4;
+						workingDays += 1;
+						break;
+
+					case isFullTime:
+						empDailyHr = 8;
+						workingDays += 1;
 						break;
 
 					default:
@@ -35,23 +38,19 @@ namespace EmpWageUsingClassMethod
 						break;
 
 				}//switch
+				totalWorkingHrs += empDailyHr;
+				Console.WriteLine("days: " + workingDays + "  " + "Emp Hrs : " + totalWorkingHrs);
+				totalEmpWage += empRatePerHour * totalWorkingHrs;
+			}//while
+			Console.WriteLine("Total Emp Wage for company " + company +" "+ "is :" + totalEmpWage);
 
-				monthlyHrs = monthlyHrs + empDailyHr;
-				Console.WriteLine("Working days : " + i);
-				Console.WriteLine("MonthlyHrsWise : " + monthlyHrs);
-				perDaySalary = empRatePerHr * empDailyHr;
-				Console.WriteLine(perDaySalary);
-				monthlySalary = perDaySalary + monthlySalary;
+		}//method
 
-			}
-			Console.WriteLine("Monthly salary: " + monthlySalary);
-
-
-		}
 		public static void Main(String[] args)
 		{
-			Console.WriteLine("Welcome to Employee wage computation: ");
-			ComputeWage();
+			Console.WriteLine("Welcome to employee wage computation");
+			EmpWageCompute("Persistent", 100, 20, 80);
+			EmpWageCompute("Infosys", 150, 15, 60);
 		}
 	}
 }
